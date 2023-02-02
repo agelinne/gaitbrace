@@ -85,13 +85,16 @@ tgc <- summarySE(df, measurevar="MOS", groupvars=c("Deformity","Condition"))
 tgc
 
 # 95% confidence intervals geom_bar
-ggplot(tgc, aes(x=Condition, y=MOS)) + 
-  geom_bar(position=position_dodge(), stat="identity", fill = "#5576D1",) +
+tiff("mos.tiff", units="in", width=6, height=3, res=900)
+ggplot(tgc, aes(x=Condition, y=MOS, fill=Condition)) + 
+  geom_bar(position=position_dodge(), stat="identity") +
   geom_errorbar(aes(ymin=MOS-ci, ymax=MOS+ci),
                 width=.2,                   
                 position=position_dodge(.9)) +
+  scale_fill_manual(values = c("#FCFED4", "#CCEDB1", "#41B7C4")) +
   facet_wrap(vars(Deformity)) +
   theme_classic()
+dev.off()
 
 #clean up
 rm(list = ls())
